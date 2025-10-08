@@ -1,6 +1,9 @@
 import ollama
 
 
+#Create client with explicit host
+client = ollama.Client('http://localhost:11434')
+
 def chat_with_qwen():
     # Simple chat bot with Qwen
     """This is a multi
@@ -25,11 +28,10 @@ def chat_with_qwen():
 
         try:
             # response from the Qwen model
-            response = ollama.chat(
+            response = client.chat(
                 model="qwen2:0.5b",
                 messages=conversation_history,
-                max_tokens=512,
-                temperature=0.7,
+                
             )
 
             assistant_message = response['message']['content']
@@ -38,6 +40,12 @@ def chat_with_qwen():
             conversation_history.append({"role": "assistant", "content": assistant_message})
 
             print(f"\n Qwen: {assistant_message}")
+
             
         except Exception as e:
             print(f"Error: {e}")
+
+if __name__ == "__main__":
+    chat_with_qwen()            
+
+
